@@ -1,0 +1,16 @@
+
+index:
+    path: /
+    controller: App\Controller\ProveidorsController::index
+
+proveidor_delete:
+    path: /delete/{id}
+    controller: App\Controller\ProveidorsController::delete
+
+proveidor_edit:
+    path: /edit/{id}
+    controller: App\Controller\ProveidorsController::edit
+
+controllers:
+    resource: ../src/Controller/
+    type: attribute

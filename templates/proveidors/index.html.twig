@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Proveïdors || Viajesparati.com{% endblock %}
+
+{% block body %}
+<div class="mx-auto p-3">
+    <img src="https://www.viajesparati.com/wp-content/uploads/2018/11/ViajesParaTi.png">
+</div>
+<div class="container-fluid">
+    <div class="row p-5">
+        <div class="col-lg-8 p-3">
+
+            <!-- Llistat de proveïdors -->
+
+            <h3>Llistat de proveïdors <i class="bi bi-person-circle"></i></h3>
+            <table class="table table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nom</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Telèfon</th>
+                        <th scope="col">Tipus</th>
+                        <th scope="col">Estat</th>
+                        <th scope="col">Data registre</th>
+                        <th scope="col">Última actualització</th>
+                        <th scope="col">Accions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proveidor in proveidors %}
+                    <tr>
+                        <th scope="row">{{ proveidor.id }}</th>
+                        <td>{{ proveidor.nom }}</td>
+                        <td>{{ proveidor.email }}</td>
+                        <td>{{ proveidor.telefon }}</td>
+                        <td>{{ proveidor.tipus}}</td>
+                        <td>
+                            {% if proveidor.estat == '1' %}
+                            <span class="text-primary">Actiu</span>
+                            {% endif %}
+                            {% if proveidor.estat == '0' %}
+                            <span class="text-danger">Inactiu</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ proveidor.createat|date("d/m/Y") }}
+                        </td>
+                        <td>
+                            {{ proveidor.editedat|date("d/m/Y") }}
+                        </td>
+                        <!-- Botons de edició i eliminació -->
+                        <td><a href="{{ path('proveidor_edit', {'id':proveidor.id})}}" class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{ path('proveidor_delete', {'id':proveidor.id}) }}" class="btn btn-danger"><i class="bi bi-trash3"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <!-- End Llistat de proveïdors -->
+
+        </div>
+
+        <!-- Formularis de creació i edició de proveïdors -->
+
+        <div class="col-lg-4 p-3">
+            {% if accio == 'create' %}
+            <h3>Afegir un proveïdor <i class="bi bi-person-plus"></i></h3>
+            {% endif %}
+            {% if accio == 'edit' %}
+            <h3>Editar {{ proveidor.nom }} <i class="bi bi-person-gear"></i></h3> 
+            {% endif %}
+            <div class="mt-2">
+                {{ form_start(form) }}
+
+                <div class="form-group">
+                    {{ form_row(form.nom, { 'attr': {'class': 'form-control', 'placeholder': 'Nom del proveïdor'} }) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(form.email, { 'attr': {'class': 'form-control', 'placeholder': 'info@viajesparati.com', 'pattern': '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'} }) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(form.telefon, { 'attr': {'class': 'form-control', 'placeholder': '+34 123 12 31 23'} }) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(form.tipus, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(form.estat, { 'attr': {'class': 'form-control'} }) }}
+                </div>
+                <!-- Botó creacio i edició -->
+                
+                {% if accio == 'create' %}
+                    {{ form_row(form.submit, {'attr': {'class': 'form-control btn btn-primary mt-4'} }) }} 
+                {% endif %}
+
+                {% if accio == 'edit' %}
+                <div class="d-flex align-items-center justify-content-between mt-4">
+                    {{ form_row(form.submit, { 'label' : 'Editar proveïdor' ,'attr': {'class': 'form-control btn btn-success'} }) }} 
+                    <a href="{{ path('index') }}" class="btn btn-danger ml-2"><i class="bi bi-arrow-90deg-left"></i></a>
+                </div>
+                {% endif %}
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
