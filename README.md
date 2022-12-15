@@ -25,9 +25,6 @@ php bin/console doctrine:migrations:diff
 # Executar migracions
 php bin/console doctrine:migrations:migrate
 
-# Run Build
-npm run build
-
 # Run symfony server 
 symfony server:start
 
